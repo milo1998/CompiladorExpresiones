@@ -3,14 +3,10 @@ from pila import Pila
 
 operadores=['*','+','-','/','=']
 
-#AnalisisLexico
-
 #Pruebas de validacion de carácteres
 def esVariable (caracter):
     if caracter.isupper():
-       #print(caracter)
         if caracter.isalpha():
-            #print("bien")
             return True
     return False
 
@@ -27,10 +23,6 @@ def esOperador(caracter):
             return True
     return False
 
-#Analisis Sintactico
-
-
-
 #Inicio del proceso
 class Elemento:
     pilaC = Pila()
@@ -40,7 +32,6 @@ class Elemento:
     for x in listaC:
         for element in x:
             if esVariable(element) == True or esNumero(element) == True or esOperador(element) == True:
-                #print ("entro")
                 for s in dic:
                         for y in s:
                             if y == element:
@@ -58,16 +49,13 @@ class Elemento:
                         print "Error de sintaxis"
                         f=True
                         break
-                    if(pilaC.es_vacia() == False):
-                        print "Error de sintaxis"
-                        f=True
-                        break
                     
                     if (esNumero(puntderecho)==True and esNumero(puntizquierdo)==True):
                         puntder=int(puntderecho)
                         puntizq=int(puntizquierdo)
                     else:
-                        print ("Error sintactico en el elemento")
+                        print ("Variable No definida")
+                        f=True
                         break
                     if element=='+':
                         pilaC.apilar(puntizq + puntder)
@@ -82,27 +70,24 @@ class Elemento:
                             break
                         else:
                             pilaC.apilar(puntizq / puntder)  
-                else:
-                    #print (element)
+                else:                   
                     if(element == '='):
                         if pilaC.es_vacia()==False:
                             m = pilaC.desapilar()
                         else:
-                            print "Error de sintaxis"
+                            print "Error de sintaxis "
                             f=True
                             break
                         if pilaC.es_vacia()==False:
                             n = pilaC.desapilar()
                         else:
-                            print "Error de sintaxis"
+                            print "Error de sintaxis "
                             f=True
                             break
                         if(pilaC.es_vacia() == False):
-                            print "Error de sintaxis"
+                            print "Error de sintaxis "
                             f=True
                             break
-                        
-                        #print m , " = ", n
                         
                         dic.append([m,n])
                         
@@ -113,11 +98,16 @@ class Elemento:
                 print "El caracter (", element , ") No se reconoce"
                 f = True
                 break
-   
+           
         else:
+            if(pilaC.es_vacia() == False):
+                print "Error de sintaxis"
+                f=True
+                break
             continue
         break
-        
+
+    
     if f == False:
         for x, y in dic:
             print x ,"=", y
