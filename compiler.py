@@ -7,6 +7,10 @@ class Elemento:
     i=0
     for x in listaC:
         for element in x:
+            for x in dic:
+                    for y in x:
+                        if y==element:
+                            element=x[1]
             if (element == '+' or element == '-' or element == '*'
                 or element == '/'):
                 puntder=float(pilaC.desapilar())
@@ -26,10 +30,8 @@ class Elemento:
                     n=pilaC.desapilar()
                     print m
                     print n
-                    dic.append(m)
-                    dic.append(n)
+                    dic.append([m,n])
                 if(element != '='):
                     pilaC.apilar(element)
                 
-        
     print (dic)
