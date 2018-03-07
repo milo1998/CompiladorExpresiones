@@ -16,7 +16,7 @@ def esVariable (caracter):
 
 def esNumero (caracter):
     try:
-        caracter = float(caracter)
+        caracter = int(caracter)
         return True
     except ValueError:
         return False
@@ -28,6 +28,8 @@ def esOperador(caracter):
     return False
 
 #Analisis Sintactico
+
+
 
 #Inicio del proceso
 class Elemento:
@@ -43,10 +45,30 @@ class Elemento:
                         for y in s:
                             if y == element:
                                 element = s[1]
-                if (element == '+' or element == '-' or element == '*'
-                    or element == '/'):
-                    puntder=float(pilaC.desapilar())
-                    puntizq=float(pilaC.desapilar())
+                if (element == '+' or element == '-' or element == '*' or element == '/'):
+                    if pilaC.es_vacia()==False:
+                        puntderecho=(pilaC.desapilar())
+                    else:
+                        print "Error de sintaxis"
+                        f=True
+                        break
+                    if pilaC.es_vacia()==False:
+                        puntizquierdo=(pilaC.desapilar())
+                    else:
+                        print "Error de sintaxis"
+                        f=True
+                        break
+                    if(pilaC.es_vacia() == False):
+                        print "Error de sintaxis"
+                        f=True
+                        break
+                    
+                    if (esNumero(puntderecho)==True and esNumero(puntizquierdo)==True):
+                        puntder=int(puntderecho)
+                        puntizq=int(puntizquierdo)
+                    else:
+                        print ("Error sintactico en el elemento")
+                        break
                     if element=='+':
                         pilaC.apilar(puntizq + puntder)
                     if element=='-':
@@ -54,12 +76,32 @@ class Elemento:
                     if element=='*':
                         pilaC.apilar(puntizq * puntder)
                     if element=='/':
-                        pilaC.apilar(puntizq / puntder)  
+                        if(puntder == 0):
+                            print("Error de compilacion: Division por 0")
+                            f=True
+                            break
+                        else:
+                            pilaC.apilar(puntizq / puntder)  
                 else:
                     #print (element)
                     if(element == '='):
-                        m = pilaC.desapilar()
-                        n = pilaC.desapilar()
+                        if pilaC.es_vacia()==False:
+                            m = pilaC.desapilar()
+                        else:
+                            print "Error de sintaxis"
+                            f=True
+                            break
+                        if pilaC.es_vacia()==False:
+                            n = pilaC.desapilar()
+                        else:
+                            print "Error de sintaxis"
+                            f=True
+                            break
+                        if(pilaC.es_vacia() == False):
+                            print "Error de sintaxis"
+                            f=True
+                            break
+                        
                         #print m , " = ", n
                         
                         dic.append([m,n])
@@ -69,9 +111,13 @@ class Elemento:
 
             else:
                 print "El caracter (", element , ") No se reconoce"
-                f = True;
+                f = True
                 break
-
+   
+        else:
+            continue
+        break
+        
     if f == False:
         for x, y in dic:
             print x ,"=", y
